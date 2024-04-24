@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+
+.row [className*="col-"] {
+  margin-bottom: -99999px;
+  padding-bottom: 99999px;
+}
+
+.row{
+  overflow: hidden; 
+}

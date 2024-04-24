@@ -53,9 +53,7 @@ const App = () => {
                     <h1 className='mt-3'>Change Allocation</h1>
                         {
                         //AllocationForm component
-                        <div className='col-sm'>
-                            <AllocationForm />
-                        </div>
+                        <AllocationForm />
                         }        
 
                 </div>

@@ -2,29 +2,32 @@ import React, { useContext, useState } from 'react';
 import { AppContext } from '../context/AppContext';
 
 const Budget = () => {
-    const { expenses, budget, currency } = useContext(AppContext);
+    const { expenses, budget, currency, dispatch } = useContext(AppContext);
+    const [newBudget, setNewBudget] = useState(budget);
+    const handleBudgetChange = (event) => {
+        setNewBudget(event.target.value);
+    }
+    const updateBudget = () => {
+        dispatch ({
+            type: 'SET_BUDGET',
+            payload: newBudget,
+        });
+    }
     const totalExpenses = expenses.reduce((total, item) => {
         return (total = total + item.cost);
     }, 0);
-    const [newBudget, setNewBudget] = useState(budget);
-    const handleBudgetChange = (event) => {
-        if (newBudget > 20000) {
-            alert("Budget cannot exeed £20,000");
-            setNewBudget(20000);        
-        }
-        else if (newBudget < totalExpenses) {
-            alert("Cannot reduce the budget value lower than the spending");
-            setNewBudget(totalExpenses);
-        }
-        else {
-            setNewBudget(event.target.value);
-        }
-    }
+    const alertType = totalExpenses > newBudget || newBudget > 20000 ? 'alert-danger' : 'alert-success';
     return (
-<div className='alert alert-secondary'>
-<span>Budget: {currency}</span>
-<input type="number" step="10" value={newBudget} onChange={handleBudgetChange}></input>
-</div>
+        <div className={`alert ${alertType}`} style={{ height: '58px'}}>
+            <div className="input-group mb-3">
+                <span>Budget: {currency}</span>
+                <input type="number" className="form-control" step="10" value={newBudget} onChange={handleBudgetChange}></input>
+                <div className="input-group-append">
+                    <button className="btn btn-outline-secondary" type="button" onClick={updateBudget}>Update</button>
+                </div>
+            </div>
+        </div>
     );
 };
+
 export default Budget;
